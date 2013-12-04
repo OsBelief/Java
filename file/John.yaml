@@ -1,0 +1,13 @@
+--- !com.java.yaml.Person
+age: 37
+children: 
+  - !com.java.yaml.Person
+    age: 15
+    name: Jimmy Smith
+  - !com.java.yaml.Person
+    age: 12
+    name: Jenny Smith
+name: John Smith
+sponse: !com.java.yaml.Person
+  age: 25
+  name: Jane Smith
