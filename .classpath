@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jyaml-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/guava-15.0.jar" sourcepath="E:/Android/guava-libraries/guava/src/src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
