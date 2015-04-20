@@ -16,6 +16,7 @@ public class SubSumTask implements Callable<Integer> {
 			for(int i = this.start; i <= this.end; i++) {
 				result += i;
 			}
+			System.out.println("Thread " + Thread.currentThread().getName() + " " + start + " : " +end);
 			return result;
 		}
 	}
