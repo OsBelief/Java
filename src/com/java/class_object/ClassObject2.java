@@ -36,13 +36,15 @@ class Initable3 {
 
 public class ClassObject2 {
 	static Random random = new Random(47);
-
 	public static void main(String[] args) throws ClassNotFoundException {
+		System.out.println("静态成员变量和静态代码块初始化的时间顺序不同");
 		Class<Initable> initable = Initable.class;
 		System.out.println(".class创建Class对象之后不会引发初始化");
 		System.out.println(Initable.staticFinal);
 		System.out.println(Initable.staticFinal2);
+		System.out.println("-----------------------------------------------");
 		System.out.println(Initable2.staticNonFinal);
+		System.out.println("-----------------------------------------------");
 		Class inClass = Class.forName("com.java.class_object.Initable3");
 		System.out.println("Class.forName()创建的Class对象会立即进行初始化");
 		System.out.println(Initable3.staticNonFinal);
