@@ -1,7 +1,10 @@
 package com.java.closures;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 /**
  * Java模拟闭包
  * @author yicha
