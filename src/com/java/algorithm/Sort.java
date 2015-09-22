@@ -51,4 +51,26 @@ public class Sort {
             }
         }
     }
+
+    /**
+     * 直接插入排序<br>
+     * 基本思想:直接插入排序是将无序区的第一个元素直接插入到有序区以形成一个更大的有序区，
+     * 而直接选择排序是从无序区选一个最小的元素直接放到有序区的最后。
+     * 
+     * @param data
+     */
+    public static void selectSort(int[] data) {
+        int i, j, n = data.length, minIndex;
+        for (i = 0; i < n; i++) {
+            minIndex = i; // 找最小元素的位置
+            for (j = i + 1; j < n; j++) {
+                if (data[minIndex] > data[j]) {
+                    minIndex = j;
+                }
+            }
+            int t = data[i];// 将这个元素放到无序区的开头
+            data[i] = data[minIndex];
+            data[minIndex] = t;
+        }
+    }
 }
