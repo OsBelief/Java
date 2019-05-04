@@ -1,4 +1,4 @@
-package com.java.designmode.proxy;
+package com.java.designpattern.proxy;
 /**
  * 代理模式
  * 特征:代理对象和真实对象实现同一个接口

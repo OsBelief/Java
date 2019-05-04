@@ -1,4 +1,4 @@
-package com.java.designmode.decorator;
+package com.java.designpattern.decorator;
 
 public class HouseBlend extends Beverage {
 	public HouseBlend() {

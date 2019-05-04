@@ -1,4 +1,4 @@
-package com.java.designmode.decorator;
+package com.java.designpattern.decorator;
 /**
  * 具体被装饰者
  * @author yicha

@@ -1,7 +1,7 @@
-package com.java.builder;
+package com.java.designpattern.builder;
 
-import com.java.builder.model.ShareLinkContent;
-import com.java.builder.model.SharePhotoContent;
+import com.java.designpattern.builder.model.ShareLinkContent;
+import com.java.designpattern.builder.model.SharePhotoContent;
 
 import java.util.ArrayList;
 import java.util.List;

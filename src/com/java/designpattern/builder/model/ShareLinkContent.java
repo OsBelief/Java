@@ -1,4 +1,4 @@
-package com.java.builder.model;
+package com.java.designpattern.builder.model;
 
 public class ShareLinkContent extends ShareContent {
     private final String imageUrl;

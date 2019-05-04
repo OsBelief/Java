@@ -1,6 +1,5 @@
-package com.java.designmode;
+package com.java.designpattern.observer;
 
-import java.lang.reflect.Proxy;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
