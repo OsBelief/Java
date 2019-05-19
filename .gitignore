@@ -1,3 +1,5 @@
+.gradle
 /bin
 .idea/
 Java.iml
+/out
