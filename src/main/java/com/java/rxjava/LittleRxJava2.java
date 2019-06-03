@@ -2,10 +2,15 @@ package com.java.rxjava;
 
 import com.java.concurrent.executor.ScheduledThread;
 import io.reactivex.*;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+
+import java.util.*;
 
 /**
  * 学习RXJava2.0
@@ -20,6 +25,10 @@ public class LittleRxJava2 {
         testThreadSchedule();
         System.out.println("==================变换==================");
         testTransformation();
+        System.out.println("==================flatMap==================");
+        testFlatMap();
+        System.out.println("==================concatMap==================");
+        testConcatMap();
     }
 
     /**
@@ -79,7 +88,7 @@ public class LittleRxJava2 {
             emitter.onNext(2);
             emitter.onComplete();
         }).subscribeOn(Schedulers.io())  // subscribeOn指定事件生产的线程, 即被观察者的运行线程
-                .observeOn(Schedulers.single())    // subscribeOn指定事件消费的线程, 即观察者的运行线程
+                .observeOn(Schedulers.single())    // observeOn指定事件消费的线程, 即观察者的运行线程
                 .subscribe(integer -> {
                     System.out.println("After observeOn(single)，Current thread is " + Thread.currentThread().getName() + ", value=" + integer);
                 });
@@ -99,6 +108,52 @@ public class LittleRxJava2 {
             @Override
             public void accept(Integer integer) throws Exception {
                 System.out.println("从String变换为Integer: " + integer);
+            }
+        });
+    }
+
+    /**
+     * flatMap
+     */
+    private static void testFlatMap() {
+        List<String> list1 = new ArrayList<>();
+        list1.add("list-1");
+        list1.add("list-2");
+        list1.add("list-3");
+        list1.add("list-4");
+
+        Observable.just(list1).flatMap(new Function<List<String>, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(List<String> strings) throws Exception {
+                return Observable.fromArray(strings.toArray(new String[strings.size()]));
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                System.out.println("flatMap变换---s=" + s);
+            }
+        });
+    }
+
+    /**
+     * concatMap
+     */
+    private static void testConcatMap() {
+        List<String> list1 = new ArrayList<>();
+        list1.add("list-1");
+        list1.add("list-2");
+        list1.add("list-3");
+        list1.add("list-4");
+
+        Observable.just(list1).concatMap(new Function<List<String>, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(List<String> strings) throws Exception {
+                return Observable.fromArray(strings.toArray(new String[strings.size()]));
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                System.out.println("concatMap变换---s=" + s);
             }
         });
     }
