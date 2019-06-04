@@ -1,16 +1,15 @@
 package com.java.rxjava;
 
-import com.java.concurrent.executor.ScheduledThread;
 import io.reactivex.*;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 学习RXJava2.0
@@ -29,6 +28,8 @@ public class LittleRxJava2 {
         testFlatMap();
         System.out.println("==================concatMap==================");
         testConcatMap();
+        System.out.println("==================背压==================");
+//        testBackPressure();
     }
 
     /**
@@ -156,5 +157,56 @@ public class LittleRxJava2 {
                 System.out.println("concatMap变换---s=" + s);
             }
         });
+    }
+
+    /**
+     * 测试背压
+     */
+    private static void testBackPressure() {
+        // Observable不支持背压, 生产者快则全部缓存
+        Observable.interval(1, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Thread.sleep(1000);
+                        System.out.println("Observable不支持背压, 生产者快则全部缓存---" + aLong);
+                    }
+                });
+        // Flowable支持背压, 生产者快则抛出MissingBackpressureException异常
+        Flowable.interval(1, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Thread.sleep(1000);
+                        System.out.println("生产者快则抛出MissingBackpressureException异常---" + aLong);
+                    }
+                });
+        Flowable.interval(1, TimeUnit.MILLISECONDS)
+                .onBackpressureDrop()
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Thread.sleep(1000);
+                        System.out.println("onBackpressureDrop()缓冲区满则丢弃---" + aLong);
+                    }
+                });
+        Flowable.interval(1, TimeUnit.MILLISECONDS)
+                .onBackpressureBuffer()
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Thread.sleep(1000);
+                        System.out.println("onBackpressureBuffer()全部缓存---" + aLong);
+                    }
+                });
+        try {
+            Thread.sleep(60 * 60 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
