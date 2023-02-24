@@ -1,22 +1,22 @@
 package com.java.io;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * Java NIO
- * 
+ *
  * @author Belief
- * 
+ *
  */
 public class FileUtil {
 	/**
@@ -76,7 +76,7 @@ public class FileUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	/**
 	 * 读文件
@@ -150,7 +150,7 @@ public class FileUtil {
 	}
 	/**
 	 * Java文件复制
-	 * 
+	 *
 	 * @param oldfile
 	 * @param newfile
 	 */
@@ -181,7 +181,7 @@ public class FileUtil {
 
 	/**
 	 * Java文件复制
-	 * 
+	 *
 	 * @param oldfile
 	 * @param newfile
 	 */
@@ -208,7 +208,7 @@ public class FileUtil {
 
 	/**
 	 * scattering read
-	 * 
+	 *
 	 * @param filepath
 	 * @param charset
 	 * @return
@@ -234,7 +234,7 @@ public class FileUtil {
 
 	/**
 	 * gather write
-	 * 
+	 *
 	 * @param header
 	 * @param body
 	 * @param filepath
@@ -261,7 +261,29 @@ public class FileUtil {
 		}
 	}
 
-	public static void main(String[] args) {
-		
-	}
+    /**
+     * 使用Java NIO2 删除文件及目录
+     * @param path
+     * @throws InvalidPathException
+     * @throws IOException
+     */
+    public static void delete(String path) throws InvalidPathException, IOException {
+        Path rootPath = Paths.get(path);
+        if (!Files.exists(rootPath)) {
+            return;
+        }
+        if (Files.isDirectory(rootPath)) {
+            try (Stream<Path> walk = Files.walk(rootPath)) {
+                walk.sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            }
+        } else {
+            Files.delete(rootPath);
+        }
+    }
+
+    public static void main(String[] args) {
+
+    }
 }
